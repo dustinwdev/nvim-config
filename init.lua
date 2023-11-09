@@ -125,6 +125,8 @@ require('lazy').setup({
     opts = {},
   },
 
+  'Mofiqul/dracula.nvim',
+
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -132,7 +134,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'tokyonight',
+        theme = 'dracula-nvim',
         component_separators = '|',
         section_separators = '',
       },
@@ -183,6 +185,30 @@ require('lazy').setup({
 
   'nvim-tree/nvim-web-devicons',
 
+  -- lspkind (LSP suggestion icons)
+  'onsails/lspkind.nvim',
+
+  -- GitHub Copilot
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      })
+    end,
+  },
+
+  -- Copilot cmp integration
+  {
+    "zbirenbaum/copilot-cmp",
+    config = function()
+      require("copilot_cmp").setup()
+    end
+  },
+
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
   --    up-to-date with whatever is in the kickstart repo.
@@ -197,7 +223,7 @@ require('lazy').setup({
 -- NOTE: You can change these options as you wish!
 
 -- Set color scheme here
-vim.cmd.colorscheme 'tokyonight'
+vim.cmd.colorscheme 'dracula'
 
 -- Set highlight on search
 vim.o.hlsearch = false
@@ -530,6 +556,10 @@ mason_lspconfig.setup_handlers {
 -- See `:help cmp`
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
+
+local lspkind = require('lspkind')
+lspkind.init()
+
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
@@ -571,7 +601,19 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = "copilot", group_index = 2 },
   },
+  formatting = {
+    format = lspkind.cmp_format({
+      mode = 'symbol',       -- show only symbol annotations
+      maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+      ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+      symbol_map = { Copilot = "" },
+      before = function(_, vim_item)
+        return vim_item
+      end
+    })
+  }
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
