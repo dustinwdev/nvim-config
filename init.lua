@@ -132,7 +132,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'tokyonight',
         component_separators = '|',
         section_separators = '',
       },
@@ -201,7 +201,7 @@ require('lazy').setup({
 -- NOTE: You can change these options as you wish!
 
 -- Set color scheme here
-vim.cmd.colorscheme 'tokyonight-moon'
+vim.cmd.colorscheme 'tokyonight'
 
 -- Set highlight on search
 vim.o.hlsearch = false
