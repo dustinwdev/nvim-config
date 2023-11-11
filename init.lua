@@ -112,11 +112,13 @@ require('lazy').setup({
     },
   },
 
+  -- Color schemes
   {
-    -- Theme inspired by Atom
     'navarasu/onedark.nvim',
     priority = 1000,
   },
+
+  { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
 
   {
     'folke/tokyonight.nvim',
@@ -125,7 +127,10 @@ require('lazy').setup({
     opts = {},
   },
 
-  'Mofiqul/dracula.nvim',
+  {
+    'Mofiqul/dracula.nvim',
+    priority = 1000,
+  },
 
   {
     -- Set lualine as statusline
@@ -242,7 +247,7 @@ require('lazy').setup({
 -- NOTE: You can change these options as you wish!
 
 -- Set color scheme here
-vim.cmd.colorscheme 'dracula'
+vim.cmd.colorscheme 'catppuccin'
 
 -- Set highlight on search
 vim.o.hlsearch = false
